@@ -1,7 +1,7 @@
 {
-  "name": "api-blog",
+  "name": "api-ecommerce",
   "version": "1.0.0",
-  "description": "Blog ",
+  "description": "api-ecommerce ",
   "main": "index.js",
   "scripts": {
     "start": "node ./app.js",
@@ -30,6 +30,6 @@
     "nodemon": "^2.0.22"
   },
   "engines": {
-    "node": ">=14 <15"
+    "node": "18.x"
   }
 }
