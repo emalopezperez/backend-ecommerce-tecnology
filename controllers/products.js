@@ -15,8 +15,6 @@ const createProduct = async (req, res) => {
     }
 
     const { titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento, imagenes } = req.body;
-
-
     
     const product = new Products({ titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento, imagenes });
 
