@@ -1,7 +1,5 @@
 const { validationResult, body } = require('express-validator');
 const Products = require('../models/Products')
-const fs = require('fs');
-const path = require('path')
 
 const cloudinary = require('../utils/cloudinary');
 const uploadImage = cloudinary.uploadImage;
