@@ -7,10 +7,11 @@ cloudinary.config({
   secure: true
 });
 
+
 const uploadImage = async (file) => {
   try {
-    const result = await cloudinary.uploader.upload(file.tempFilePath, {
-      folder: "CRM",
+    const result = await cloudinary.uploader.upload(file.path, {
+      folder: 'CRM'
     });
     return result;
   } catch (error) {
@@ -18,6 +19,7 @@ const uploadImage = async (file) => {
     throw error;
   }
 };
+
 
 const deleteImage = async (publicId) => {
   try {
