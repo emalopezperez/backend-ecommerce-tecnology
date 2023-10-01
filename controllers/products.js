@@ -1,25 +1,24 @@
 const { validationResult, body } = require('express-validator');
 const Products = require('../models/Products')
+const fs = require('fs');
+const path = require('path')
 
 const cloudinary = require('../utils/cloudinary');
 const uploadImage = cloudinary.uploadImage;
 
 
 const createProduct = async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
 
-    const { titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento, imagenes } = req.body;
-    
-    const product = new Products({ titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento, imagenes });
+  try {
+    const { titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento} = req.body;
+
+    const product = new Products({ titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento});
+
 
     if (req.files?.imagen) {
       const result = await uploadImage(req.files.imagen.tempFilePath);
 
-      product.imagenes.push(result.secure_url);
+      product.imagen = result.secure_url
     }
 
     const savedProduct = await product.save();
@@ -117,7 +116,7 @@ const updateProduct = async (req, res) => {
         const result = await uploadImage(image.tempFilePath);
         updatedProduct.imagenes.push(result.secure_url);
       }
-      await updatedProduct.save(); 
+      await updatedProduct.save();
     }
 
     return res.status(200).json({
