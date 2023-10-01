@@ -22,7 +22,7 @@ const createProduct = async (req, res) => {
     });
 
     if (req.files?.imagen) {
-      const result = await uploadImage(req.files.imagen);
+      const result = await uploadImage(req.files.imagen.data);
       product.imagen = {
         public_id: result.public_id,
         secure_url: result.secure_url,
@@ -40,6 +40,7 @@ const createProduct = async (req, res) => {
     return res.status(500).json({ message: "Error al guardar el producto en la base de datos." });
   }
 };
+
 
 
 
