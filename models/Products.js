@@ -14,7 +14,8 @@ const ProductsSchema = Schema({
   descuento: { type: Boolean, required: false },
   rating: { type: Number, required: false },
   imagen: {
-    type: String,
+    public_id: String,
+    secure_url: String,
   },
   updatedAt: { type: Date, required: false },
   createdAt: { type: Date, default: Date.now }

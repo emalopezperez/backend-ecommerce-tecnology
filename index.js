@@ -4,6 +4,7 @@ const { connection } = require('./dataBase/connection')
 const express = require('express')
 const cors = require("cors")
 const { createRoles } = require('./libs/initialSetup')
+const fileUpload = require("express-fileupload")
 
 // Conecion DB
 connection();
@@ -18,6 +19,10 @@ app.use(express.urlencoded({ extended: true }))
 
 // Permite solicitudes desde cualquier origen
 app.use(cors())
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: "./uploads",
+}))
 
 
 //Rutas

@@ -9,10 +9,15 @@ cloudinary.config({
 
 const uploadImage = async (filePath) => {
   return await cloudinary.uploader.upload(filePath, {
-    folder: 'crm'
+    folder: 'CRM'
   })
 }
 
+const deleteImage = async (publicId) => {
+  return await cloudinary.uploader.destroy(publicId)
+}
+
 module.exports = {
-  uploadImage: uploadImage
+  uploadImage,
+  deleteImage
 };

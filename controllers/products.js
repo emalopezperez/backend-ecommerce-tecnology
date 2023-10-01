@@ -1,35 +1,39 @@
 const { validationResult, body } = require('express-validator');
 const Products = require('../models/Products')
 const cloudinary = require('../utils/cloudinary');
-const uploadImage = cloudinary.uploadImage;
+const { uploadImage, deleteImage } = cloudinary
+const fs = require('fs-extra')
 
 
 const createProduct = async (req, res) => {
   const { titulo, precio, categoria, contenido, descripcion, stock, estado, rating, slug, str_variedad } = req.body;
 
-  if (!titulo) return res.status(404).json({ message: 'name is required' });
-
   try {
-    const newProduct = new Products({
+    const product = new Products({
       titulo, precio, categoria, contenido, descripcion, stock, estado, rating, slug, str_variedad
-    });
+    })
+
 
     if (req.files?.imagen) {
-      const result = await uploadImage(req.files.imagen.tempFilePath);
+      const result = await uploadImage(req.files.imagen.tempFilePath)
 
-      // Asegúrate de que result.secure_url sea una cadena antes de asignarlo
-      if (typeof result.secure_url === 'string') {
-        newProduct.imagen = result.secure_url;
-      } else {
-        // Manejar un escenario en el que result.secure_url no sea una cadena
-        return res.status(400).json({ message: 'La URL de la imagen no es válida' });
+      product.imagen = {
+        public_id: result.public_id,
+        secure_url: result.secure_url
       }
+
+      await fs.unlink(req.files.imagen.tempFilePath)
     }
 
-    const savedProduct = await newProduct.save();
-    return res.json(savedProduct);
+    const savedProduct = await product.save();
+    if (savedProduct) {
+      return res.json(savedProduct);
+    } else {
+      return res.status(500).json({ message: 'No se pudo guardar el producto en la base de datos.' });
+    }
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error(error);
+    return res.status(500).json({ message: 'Error al guardar el producto en la base de datos.' });
   }
 };
 
