@@ -10,15 +10,21 @@ cloudinary.config({
 
 const uploadImage = async (imageBuffer) => {
   try {
-    const result = await cloudinary.uploader.upload(imageBuffer, {
+    const streamifier = require('streamifier'); // Importa el módulo streamifier
+
+    const imageStream = streamifier.createReadStream(imageBuffer);
+    
+    const result = await cloudinary.uploader.upload(imageStream, {
       folder: 'CRM' // Carpeta de destino en Cloudinary
     });
+
     return result;
   } catch (error) {
     console.error("Error al subir imagen a Cloudinary:", error);
     throw error;
   }
 };
+
 
 
 
