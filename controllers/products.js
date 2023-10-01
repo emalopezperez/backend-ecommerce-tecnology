@@ -21,6 +21,7 @@ const createProduct = async (req, res) => {
       str_variedad,
     });
 
+    
     if (req.files?.imagen) {
       const result = await uploadImage(req.files.imagen.data);
       product.imagen = {
@@ -28,6 +29,7 @@ const createProduct = async (req, res) => {
         secure_url: result.secure_url,
       };
     }
+    
 
     const savedProduct = await product.save();
     if (savedProduct) {

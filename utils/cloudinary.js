@@ -8,10 +8,10 @@ cloudinary.config({
 });
 
 
-const uploadImage = async (file) => {
+const uploadImage = async (imageBuffer) => {
   try {
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: 'CRM'
+    const result = await cloudinary.uploader.upload(imageBuffer, {
+      folder: 'CRM' // Carpeta de destino en Cloudinary
     });
     return result;
   } catch (error) {
@@ -19,6 +19,7 @@ const uploadImage = async (file) => {
     throw error;
   }
 };
+
 
 
 const deleteImage = async (publicId) => {
