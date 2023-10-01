@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { verifyToken, isAdmin } = require('../middlewares/authJwt')
 const products = require('../controllers/products')
 
 const router = Router()

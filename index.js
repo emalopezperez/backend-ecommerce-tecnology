@@ -3,7 +3,6 @@ require("dotenv").config()
 const { connection } = require('./dataBase/connection')
 const express = require('express')
 const cors = require("cors")
-const { createRoles } = require('./libs/initialSetup')
 const fileUpload = require("express-fileupload")
 
 // Conecion DB
@@ -11,7 +10,6 @@ connection();
 
 // Crear Servidor de node
 const app = express();
-createRoles();
 
 // Convierte los cuerpos de las solicitudes en objetos JSON
 app.use(express.json())
