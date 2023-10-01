@@ -1,33 +1,39 @@
 const { validationResult, body } = require('express-validator');
 const Products = require('../models/Products')
-const fs = require('fs');
-const path = require('path')
-
 const cloudinary = require('../utils/cloudinary');
 const uploadImage = cloudinary.uploadImage;
 
 
 const createProduct = async (req, res) => {
+  const { titulo, precio, categoria, contenido, descripcion, stock, estado, rating, slug, str_variedad } = req.body;
+
+  if (!titulo) return res.status(404).json({ message: 'name is required' });
 
   try {
-    const { titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento} = req.body;
-
-    const product = new Products({ titulo, slug, contenido, categoria, precio, descripcion, stock, str_variedad, estado, descuento});
-
+    const newProduct = new Products({
+      titulo, precio, categoria, contenido, descripcion, stock, estado, rating, slug, str_variedad
+    });
 
     if (req.files?.imagen) {
       const result = await uploadImage(req.files.imagen.tempFilePath);
 
-      product.imagen = result.secure_url
+      // Asegúrate de que result.secure_url sea una cadena antes de asignarlo
+      if (typeof result.secure_url === 'string') {
+        newProduct.imagen = result.secure_url;
+      } else {
+        // Manejar un escenario en el que result.secure_url no sea una cadena
+        return res.status(400).json({ message: 'La URL de la imagen no es válida' });
+      }
     }
 
-    const savedProduct = await product.save();
-    return res.status(201).json({ msg: "El artículo ha sido creado correctamente", article: savedProduct });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ msg: "Ha ocurrido un error al crear el artículo" });
+    const savedProduct = await newProduct.save();
+    return res.json(savedProduct);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
-}
+};
+
+
 
 
 const listProducts = async (req, res) => {

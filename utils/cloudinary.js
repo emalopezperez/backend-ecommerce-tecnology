@@ -7,10 +7,10 @@ cloudinary.config({
   secure: true
 });
 
-async function uploadImage(filePath) {
+const uploadImage = async (filePath) => {
   return await cloudinary.uploader.upload(filePath, {
-    folder: "CRM"
-  });
+    folder: 'crm'
+  })
 }
 
 module.exports = {
