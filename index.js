@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use(fileUpload({
   useTempFiles: true,
-  tempFileDir: './imagenes'
+  tempFileDir: '/imagenes'
 }));
 
 //Rutas
