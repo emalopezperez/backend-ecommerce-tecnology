@@ -1,12 +1,9 @@
 const { Router } = require('express');
-const multipart = require('connect-multiparty');
 const { verifyToken, isAdmin } = require('../middlewares/authJwt')
 const products = require('../controllers/products')
 
 
 const router = Router()
-const path = multipart({ uploadDir: './imagenes/articulos' });
-
 
 router.get('/list_products', products.listProducts)
 router.get('/list_products_limit', products.listProductsLimit);

@@ -44,6 +44,8 @@ const singUp = async (req, res) => {
 const login = async (req, res) => {
   const user = await User.findOne({ email: req.body.email }).populate('roles')
 
+  console.log(req.body)
+
   if (!user) {
     return res.status(400).json({ menssage: 'User no found' })
   }

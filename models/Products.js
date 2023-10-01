@@ -13,7 +13,7 @@ const ProductsSchema = Schema({
   estado: { type: Boolean, required: false },
   descuento: { type: Boolean, required: false },
   rating: { type: Number, required: false },
-  imagenes: [{ type: String }],
+  imagenes: { type: String },
   updatedAt: { type: Date, required: false },
   createdAt: { type: Date, default: Date.now }
 });
