@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(
   fileUpload({
-    useTempFiles: false, 
+    useTempFiles: true, 
   })
 );
 

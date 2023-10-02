@@ -1,3 +1,4 @@
+const { validationResult, body } = require('express-validator');
 const Products = require('../models/Products')
 const cloudinary = require('../utils/cloudinary');
 const { uploadImage, deleteImage } = cloudinary
@@ -9,42 +10,31 @@ const createProduct = async (req, res) => {
 
   try {
     const product = new Products({
-      titulo,
-      precio,
-      categoria,
-      contenido,
-      descripcion,
-      stock,
-      estado,
-      rating,
-      slug,
-      str_variedad,
-    });
+      titulo, precio, categoria, contenido, descripcion, stock, estado, rating, slug, str_variedad
+    })
 
-    
     if (req.files?.imagen) {
-      const result = await uploadImage(req.files.imagen.data);
+      const result = await uploadImage(req.files.imagen.tempFilePath)
+
       product.imagen = {
         public_id: result.public_id,
-        secure_url: result.secure_url,
-      };
+        secure_url: result.secure_url
+      }
+
+      await fs.unlink(req.files.imagen.tempFilePath)
     }
-    
 
     const savedProduct = await product.save();
     if (savedProduct) {
       return res.json(savedProduct);
     } else {
-      return res.status(500).json({ message: "No se pudo guardar el producto en la base de datos." });
+      return res.status(500).json({ message: 'No se pudo guardar el producto en la base de datos.' });
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error al guardar el producto en la base de datos." });
+    return res.status(500).json({ message: 'Error al guardar el producto en la base de datos.' });
   }
 };
-
-
-
 
 const listProducts = async (req, res) => {
   try {

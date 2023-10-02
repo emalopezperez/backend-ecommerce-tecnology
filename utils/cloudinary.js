@@ -7,38 +7,17 @@ cloudinary.config({
   secure: true
 });
 
-
-const uploadImage = async (imageBuffer) => {
-  try {
-    const streamifier = require('streamifier'); // Importa el módulo streamifier
-
-    const imageStream = streamifier.createReadStream(imageBuffer);
-    
-    const result = await cloudinary.uploader.upload(imageStream, {
-      folder: 'CRM' // Carpeta de destino en Cloudinary
-    });
-
-    return result;
-  } catch (error) {
-    console.error("Error al subir imagen a Cloudinary:", error);
-    throw error;
-  }
-};
-
-
-
+const uploadImage = async (filePath) => {
+  return await cloudinary.uploader.upload(filePath, {
+    folder: 'CRM'
+  })
+}
 
 const deleteImage = async (publicId) => {
-  try {
-    const result = await cloudinary.uploader.destroy(publicId);
-    return result;
-  } catch (error) {
-    console.error("Error al eliminar imagen de Cloudinary:", error);
-    throw error;
-  }
-};
+  return await cloudinary.uploader.destroy(publicId)
+}
 
 module.exports = {
   uploadImage,
-  deleteImage,
+  deleteImage
 };
